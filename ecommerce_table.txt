@@ -1,0 +1,35 @@
++-------------------+           +--------------------+
+|      Users        |           |     Categories     |
++-------------------+           +--------------------+
+| Id (PK)           |           | Id (PK)            |
+| Name              |           | Name               |
+| Email (UNIQUE)    |           | Description        |
+| PasswordHash      |           +--------------------+
+| Role (user/admin) |
+| CreatedAt         |
++-------------------+
+        ▲                               ▲
+        |                               |
++-------------------+           +--------------------+
+|     Orders        |           |     Products       |
++-------------------+           +--------------------+
+| Id (PK)           |           | Id (PK)            |
+| UserId (FK)       |──────────▶| CategoryId (FK)    |
+| TotalPrice        |           | Name               |
+| Status            |           | Description        |
+| CreatedAt         |           | Price              |
++-------------------+           | Stock              |
+                                | ImageUrl           |
+                                | CreatedAt          |
+                                +--------------------+
+                                         ▲
+                                         |
+                                +--------------------+
+                                |   OrderItems       |
+                                +--------------------+
+                                | Id (PK)            |
+                                | OrderId (FK)       |
+                                | ProductId (FK)     |
+                                | Quantity           |
+                                | UnitPrice          |
+                                +--------------------+
