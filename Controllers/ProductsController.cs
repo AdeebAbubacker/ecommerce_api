@@ -14,11 +14,34 @@ public class ProductsController : ControllerBase
 
     [HttpGet]
     public async Task<IActionResult> GetAll()
-    {
-        var products = await _db.Products.Include(p => p.Category).ToListAsync();
-        return Ok(products);
-    }
+    // {
+    //     var products = await _db.Products.Include(p => p.Category).ToListAsync();
+    //     return Ok(products);
+    // }
+{
+    var products = await _db.Products
+        .Include(p => p.Category)
+        .Select(p => new ProductDto
+        {
+            Id = p.Id,
+            Name = p.Name,
+            Description = p.Description,
+            Price = p.Price,
+            Stock = p.Stock,
+            ImageUrl = p.ImageUrl,
+            CreatedAt = p.CreatedAt,
+            CategoryId = p.CategoryId,
+            Category = p.Category == null ? null : new CategoryDto
+            {
+                Id = p.Category.Id,
+                Name = p.Category.Name,
+                Description = p.Category.Description
+            }
+        })
+        .ToListAsync();
 
+    return Ok(products);
+}
     [HttpGet("{id}")]
     public async Task<IActionResult> Get(int id)
     {
